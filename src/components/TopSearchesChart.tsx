@@ -1,4 +1,5 @@
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Treemap } from 'recharts';
+import { Building2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { TrendingUp } from 'lucide-react';
 
@@ -27,6 +28,19 @@ const COLORS = [
   'hsl(210, 70%, 55%)',
   'hsl(170, 60%, 45%)',
   'hsl(280, 50%, 55%)',
+];
+
+const topAssignees = [
+  { name: 'Samsung', patents: 8760, country: '🇰🇷' },
+  { name: 'IBM', patents: 7450, country: '🇺🇸' },
+  { name: 'Apple', patents: 6320, country: '🇺🇸' },
+  { name: 'Qualcomm', patents: 5890, country: '🇺🇸' },
+  { name: 'Google', patents: 5420, country: '🇺🇸' },
+  { name: 'Microsoft', patents: 5100, country: '🇺🇸' },
+  { name: 'Huawei', patents: 4870, country: '🇨🇳' },
+  { name: 'Intel', patents: 4200, country: '🇺🇸' },
+  { name: 'Amazon', patents: 3950, country: '🇺🇸' },
+  { name: 'Sony', patents: 3600, country: '🇯🇵' },
 ];
 
 const yearlyTrends = [
@@ -126,7 +140,81 @@ export const TopSearchesChart = () => {
           </CardContent>
         </Card>
 
-        {/* Area/Bar Chart - Yearly Trends (full width) */}
+        {/* Top Assignees Bar Chart */}
+        <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Building2 className="w-5 h-5 text-primary" />
+              Top Patent Assignees
+            </CardTitle>
+            <CardDescription>Companies with most USPTO filings (2024–2025)</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[320px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={topAssignees} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" horizontal={false} />
+                  <XAxis type="number" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} tickFormatter={(v) => `${(v / 1000).toFixed(1)}k`} />
+                  <YAxis type="category" dataKey="name" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 11 }} width={90} />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'hsl(var(--card))',
+                      border: '1px solid hsl(var(--border))',
+                      borderRadius: '8px',
+                      color: 'hsl(var(--foreground))',
+                      fontSize: 13,
+                    }}
+                    formatter={(value: number) => [`${value.toLocaleString()} patents`, 'Filings']}
+                  />
+                  <Bar dataKey="patents" fill="hsl(var(--accent))" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Assignee Ranking Cards */}
+        <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Assignee Leaderboard</CardTitle>
+            <CardDescription>Top filers ranked by patent volume</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3 max-h-[320px] overflow-y-auto pr-1">
+              {topAssignees.map((assignee, index) => {
+                const maxPatents = topAssignees[0].patents;
+                const widthPercent = (assignee.patents / maxPatents) * 100;
+                return (
+                  <div key={assignee.name} className="relative">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-mono text-muted-foreground w-5 text-right">
+                        {index + 1}
+                      </span>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm font-medium text-foreground">
+                            {assignee.country} {assignee.name}
+                          </span>
+                          <span className="text-xs font-mono text-muted-foreground">
+                            {assignee.patents.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="h-2 rounded-full bg-muted overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-primary/70 transition-all duration-500"
+                            style={{ width: `${widthPercent}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Yearly Trends - full width */}
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm lg:col-span-2">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">USPTO Patent Filing Trends</CardTitle>
