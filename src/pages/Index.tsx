@@ -5,6 +5,7 @@ import { PatentTable } from '@/components/PatentTable';
 import { EmptyState } from '@/components/EmptyState';
 import { LoadingSkeleton } from '@/components/LoadingSkeleton';
 import { StatsBar } from '@/components/StatsBar';
+import { TopSearchesChart } from '@/components/TopSearchesChart';
 import { searchPatents, Patent } from '@/lib/patentApi';
 
 const Index = () => {
@@ -63,6 +64,13 @@ const Index = () => {
           </p>
           <SearchBar onSearch={handleSearch} isLoading={isLoading} />
         </div>
+
+        {/* Charts Section - shown when no search has been performed */}
+        {!hasSearched && !isLoading && (
+          <div className="mb-12">
+            <TopSearchesChart />
+          </div>
+        )}
 
         {/* Stats Bar */}
         {hasSearched && !isLoading && !error && patents.length > 0 && (
