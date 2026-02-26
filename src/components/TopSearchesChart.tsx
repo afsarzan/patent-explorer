@@ -70,7 +70,6 @@ export const TopSearchesChart = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Bar Chart - Top Categories */}
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Top Search Categories</CardTitle>
@@ -99,8 +98,6 @@ export const TopSearchesChart = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Pie Chart - Technology Distribution */}
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg">Technology Distribution</CardTitle>
@@ -140,7 +137,6 @@ export const TopSearchesChart = () => {
           </CardContent>
         </Card>
 
-        {/* Top Assignees Bar Chart */}
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg flex items-center gap-2">
@@ -159,10 +155,10 @@ export const TopSearchesChart = () => {
                   <Tooltip
                     contentStyle={{
                       backgroundColor: 'hsl(var(--card))',
-                      border: '1px solid hsl(var(--border))',
-                      borderRadius: '8px',
+                      border: '1.5px solid hsl(var(--border))',
+                      borderRadius: '6px',
                       color: 'hsl(var(--foreground))',
-                      fontSize: 13,
+                      fontSize: 12,
                     }}
                     formatter={(value: number) => [`${value.toLocaleString()} patents`, 'Filings']}
                   />
