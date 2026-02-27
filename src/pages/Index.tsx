@@ -6,6 +6,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { LoadingSkeleton } from '@/components/LoadingSkeleton';
 import { StatsBar } from '@/components/StatsBar';
 import { TopSearchesChart } from '@/components/TopSearchesChart';
+import { GuidedWorkflowSection } from '@/components/GuidedWorkflowSection';
 import { searchPatents, Patent } from '@/lib/patentApi';
 
 const Index = () => {
@@ -67,8 +68,9 @@ const Index = () => {
 
         {/* Charts Section - shown when no search has been performed */}
         {!hasSearched && !isLoading && (
-          <div className="mb-12">
+          <div className="mb-12 space-y-16">
             <TopSearchesChart />
+            <GuidedWorkflowSection onSearch={handleSearch} />
           </div>
         )}
 
